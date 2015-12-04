@@ -27,7 +27,7 @@ if __name__ == "__main__":
             md5_hash = hashlib.md5(test).hexdigest()
 
             if md5_hash.startswith('000000'):
-                print '1. The number that produces a MD5 hash(%s) that starts with six zeros is %d' % (md5_hash, i)
+                print '2. The number that produces a MD5 hash(%s) that starts with six zeros is %d' % (md5_hash, i)
                 break
 
             i += 1
