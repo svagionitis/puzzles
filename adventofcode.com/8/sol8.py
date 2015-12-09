@@ -1,5 +1,4 @@
 import re
-import sys
 
 if __name__ == "__main__":
 
@@ -16,13 +15,27 @@ if __name__ == "__main__":
             if not ln:
                 continue
 
-            line_list = list(ln)
 
+            # Start Part Two
+            ln = ln.replace('\\', '\\\\')
+            ln = ln.replace('"', '\\"')
+
+            ln = '"' + ln + '"'
+            # End Part Two
+
+
+            line_list = list(ln)
             buffer_length += len(line_list)
 
-            string = ln.strip("\"")
-            doublequote_count = string.count('"')
-            backslash_count = string.count('\\\\')
-            x_count = string.count('\\x')
-            print "%s, %s -- %d - %d, (%d %d %d)" % (ln, string, len(line_list), len(string), doublequote_count, backslash_count, x_count)
+            # Decode the escape characters
+            string = ln.decode('string_escape')
 
+            #string = re.findall(r'^"(.*)"$', string)
+
+            # String length minus 2 double quotes
+            string_length += len(string) - 2
+
+
+            print "%s, %s -- %d - %d" % (ln, string, len(line_list), len(string))
+
+        print '1. what is the number of characters of code for string literals minus the number of characters in memory for the values of the strings in total for the entire file? %d' % (buffer_length - string_length)
