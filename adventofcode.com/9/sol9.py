@@ -1,5 +1,30 @@
 from collections import OrderedDict
 
+def find_all_paths(graph, start, end, path=[]):
+    """ See https://www.python.org/doc/essays/graphs/
+    """
+
+    path = path + [start]
+
+    if start == end:
+        return [path]
+
+    if not graph.has_key(start):
+        return []
+
+    paths = []
+    for node in graph[start]:
+        print 'Node: %s -- Graph[%s]: %s' % (node, start, graph[start])
+        if node not in path:
+            newpaths = find_all_paths(graph, node, end, path)
+            for newpath in newpaths:
+                paths.append(newpath)
+
+        if node == end:
+            print path, node
+
+    return paths
+
 if __name__ == "__main__":
 
     with open("input.txt") as f:
@@ -7,7 +32,7 @@ if __name__ == "__main__":
         lines = f.readlines()
 
 
-        distance_matrix = {}
+        distance_graph = {}
         for i, line in enumerate(lines):
 
             ln = line.strip('\n')
@@ -26,56 +51,22 @@ if __name__ == "__main__":
             print f, t, distance
 
             # Populate matrix
-            if f not in distance_matrix:
-                distance_matrix[f] = {}
-            distance_matrix[f][t] = distance
+            if f not in distance_graph:
+                distance_graph[f] = {}
+            distance_graph[f][t] = distance
+
+        print distance_graph
 
         counts = []
         # Count unique locations
-        for i in distance_matrix:
+        for i in distance_graph:
             if i not in counts:
                 counts.append(i)
-            for j in distance_matrix[i]:
+            for j in distance_graph[i]:
                 if j not in counts:
                     counts.append(j)
         total_locations = len(counts)
 
         print counts
 
-        route = OrderedDict()
-        dm = distance_matrix
-        count = 0
-        fromvisited = []
-        while len(route) != total_locations and count < 28:
-
-
-            if not dm[i]:
-                fromvisited.append(i)
-                del dm[i]
-                dm = distance_matrix
-
-            if i in fromvisited:
-                i = dm.iterkeys().next()
-
-            print 'From: %s' % i
-            route = OrderedDict()
-
-            while i in dm.keys():
-
-                m = min(dm[i], key=dm[i].get)
-                route[i] = m
-
-                print '\t %d Min From: %s To: %s' % (count, i, m)
-
-                i = m
-
-
-            if route:
-                del dm[route.keys()[0]][route.values()[0]]
-                if route.keys()[0] in dm:
-                    i = route.keys()[0]
-
-
-            print route, len(route)
-            count += 1
-
+        print find_all_paths(distance_graph, "Norrath", "Arbre")
