@@ -1,21 +1,22 @@
 import re
 import json
 
+# TODO Needs refactoring ([generator](https://www.jeffknupp.com/blog/2013/04/07/improve-your-python-yield-and-generators-explained/))
+# [Interesting article to read](http://compiletoi.net/garcon-theres-a-catamorphism-in-my-python.html)
 def get_obj(obj, value=None, lst=[]):
     """ Returns a list with all the objects with value
     """
 
-    if type(obj) is dict:
+    if isinstance(obj, dict):
         if value not in obj.values():
             for v in obj.values():
-                if type(v) is dict or type(v) is list:
+                if isinstance(v, dict) or isinstance(v, list):
                     get_obj(v, value = value, lst = lst)
         else:
-            print '-->', json.dumps(obj)
             lst.append(obj)
-    elif type(obj) is list:
+    elif isinstance(obj, list):
         for v in obj:
-            if type(v) is dict:
+            if isinstance(v, dict) or isinstance(v, list):
                 get_obj(v, value = value, lst = lst)
 
 
@@ -34,7 +35,6 @@ if __name__ == "__main__":
 
             if not ln:
                 continue
-
 
             # Find all numbers in the format -12.345
             l = re.findall("-?\d+(?:\.\d+)?", ln)
@@ -57,5 +57,5 @@ if __name__ == "__main__":
 
             l_red = [int(i) for i in l_red]
 
-            print sum(l_red), sum(l) - sum(l_red)
+            print '2. Find the sum ignoring any object (and all of its children) which has any property with the value "red": %d' % (sum(l) - sum(l_red))
 
