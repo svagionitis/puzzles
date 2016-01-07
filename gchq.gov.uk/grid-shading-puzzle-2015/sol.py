@@ -128,7 +128,11 @@ if __name__ == "__main__":
 
     grid = init_grid()
 
-    print whites_in_between_combinations(rows[0], grid[0])
-    print whites_in_between_combinations(rows[3], grid[3])
-    print whites_in_between_combinations(columns[0], grid[:][0])
-    print whites_in_between_combinations(columns[3], grid[:][3])
+    # Print rows
+    for i in range(25):
+        print 'Row: ', i, whites_in_between_combinations(rows[i], grid[i])
+
+    # Print columns
+    for i in range(25):
+        print 'Column: ', i, whites_in_between_combinations(columns[i], grid[:][i])
+
