@@ -74,7 +74,7 @@ def init_grid(rows = 25, columns = 25):
     return grid
 
 
-def whites_in_between_combinations(black_labels, line):
+def whites_in_between_blacks_combinations(black_labels, line):
     """ Calculates the combinations of the white squares
         in between the black(given by black_labels)
         which fit in the line
@@ -119,6 +119,22 @@ def whites_in_between_combinations(black_labels, line):
     return labels
 
 
+def combine_blacks_whites(black_labels, white_labels, start_black_index = 0):
+    """ Create a line with black and white squares, using the black and white
+        labels. By default start with black from position 0.
+        TODO: Need change the default black from position 0.
+    """
+
+    line = []
+
+    # Mix black and white labels
+    labels_none = map(None, black_labels, white_labels)
+    mixed_labels = [i for tup in labels_none for i in tup if i is not None]
+
+
+    for i in range(25):
+
+    return line
 
 if __name__ == "__main__":
 
@@ -130,9 +146,9 @@ if __name__ == "__main__":
 
     # Print rows
     for i in range(25):
-        print 'Row: ', i, whites_in_between_combinations(rows[i], grid[i])
+        print 'Row: ', i, whites_in_between_blacks_combinations(rows[i], grid[i])
 
     # Print columns
     for i in range(25):
-        print 'Column: ', i, whites_in_between_combinations(columns[i], grid[:][i])
+        print 'Column: ', i, whites_in_between_blacks_combinations(columns[i], grid[:][i])
 
